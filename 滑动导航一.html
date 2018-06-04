@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>滑动导航一</title>
+  <style>
+	body{
+		margin:0;
+		background-color:#333;
+	}
+	.nav{
+		position:relative;
+		width:600px;
+		margin:100px auto 0;
+	}
+	ul{
+		list-style:none;
+		width:100%;
+		margin:0;
+		padding:0;
+	}
+	.clearfix:after{
+		content:"";
+		display:block;
+		clear:both;
+	}
+	ul li{
+		float:left;
+		width:100px;
+		line-height:30px;
+		text-align:center;
+	}
+	ul li a{
+		display:block;
+		background-color:#fff;
+		color:#000;
+		text-decoration:none;
+	}
+	ul li .selected,ul li a:hover{
+		color:#f0f;
+	}
+	.cur{
+		transition:.5s;
+		display:block;
+		position:absolute;
+		left:0;
+		bottom:0;
+		width:100px;
+		height:3px;
+		background-color:#f0f;
+	}
+  </style>
+ </head>
+ <body>
+	<div class="nav">
+		<ul class="clearfix">
+			<li>
+				<a href="#" class="selected">demo</a>
+			</li>
+			<li>
+				<a href="#">demo</a>
+			</li>
+			<li>
+				<a href="#">demo</a>
+			</li>
+			<li>
+				<a href="#">demo</a>
+			</li>
+			<li>
+				<a href="#">demo</a>
+			</li>
+			<li>
+				<a href="#">demo</a>
+			</li>
+		</ul>
+		<i class="cur"></i>
+	</div>
+	<script>
+		var obj = document.getElementsByClassName("clearfix")
+			aSelect = document.getElementsByTagName("a"),
+			oCur = document.getElementsByClassName("cur"),
+			oClassName = "selected";
+			for(var i = 0;i < 6;i++){
+				aSelect[i].slip = i;
+				aSelect[i].onclick = function(){
+					oCur[0].style.left = 100 * this.slip + "px";
+					aSelect[this.slip].className = oClassName;
+					for(var j = 0;j < 6;j++){
+						if(j != this.slip){
+							aSelect[j].className = "";
+						}
+					}
+				}
+			}
+	</script>
+ </body>
+</html>
