@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>3D空间的卡片翻转动效二</title>
+  <style>
+	body{
+		margin:0;
+	}
+	.wrap{
+		position:relative;
+		width:250px;
+		margin:100px auto 0;
+	}
+	.wrap .box{
+		perspective:600px;
+		-webkit-perspective:600px;
+		transform-style:preserve-3d;
+		height:350px;
+	}
+	.wrap .box img{
+		transition:1s;
+		position:absolute;
+	}
+	.wrap .box .card-1{
+		z-index:1;
+	}
+	.wrap .box .card-2{
+		transform:rotateY(180deg);
+	}
+	.wrap .box:hover > .card-1{
+		transform:rotateY(180deg);
+		z-index:0;
+	}
+	.wrap .box:hover > .card-2{
+		transform:rotateY(360deg);
+	}
+  </style>
+ </head>
+ <body>
+	<div class="wrap">
+		<div class="box">
+			<img class="card-1" src="images/正面.jpg" width="250" height="350" alt="正面"/>
+			<img class="card-2" src="images/反面.jpg" width="250" height="350" alt="反面"/>
+		</div>
+	</div>
+ </body>
+</html>
