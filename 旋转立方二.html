@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>旋转立方二</title>
+	<style type="text/css">
+		body{
+			margin:0;
+			background-color:#0b090a;
+		}
+		#stage{
+			perspective:800px;
+			perspective-origin:50% 50%;
+			-webkit-perspective:800px;
+			-webkit-perspective-origin:50% 50%;
+		}
+		#stage .cubic{
+			position:relative;
+			transform-style:preserve-3d;
+			width:206px;
+			height:206px;
+			margin:200px auto 0;
+			animation:myfirst 10s linear infinite paused;
+		}
+		#stage .cubic:hover{
+			animation-play-state:running;
+		}
+		#stage .cubic div{
+			position:absolute;
+			width:200px;
+			height:200px;
+			border:3px solid #1883e7;
+			color:#fff;
+			font-size:50px;
+			text-align:center;
+			line-height:200px;
+		}
+		.front{
+			transform:translateZ(100px);
+			background-color:rgba(128,0,128,.5);
+		}
+		.behind{
+			transform:rotateY(180deg) translateZ(100px);
+			background-color:rgba(255,0,255,.5);
+		}
+		.left{
+			transform:rotateY(90deg) translateZ(100px);
+			background-color:rgba(255,153,204,.5);
+		}
+		.right{
+			transform:rotateY(-90deg) translateZ(100px);
+			background-color:rgba(0,204,255,.5);
+		}
+		.upper{
+			transform:rotateX(90deg) translateZ(100px);
+			background-color:rgba(153,204,255,.5);
+		}
+		.lower{
+			transform:rotateX(-90deg) translateZ(100px);
+			background-color:rgba(0,255,255,.5);
+		}
+		@keyframes myfirst{
+			from{
+				transform:rotateX(0deg) rotateY(0deg);
+			}
+			to{
+				transform:rotateX(360deg) rotateY(360deg);
+			}
+		}
+	</style>
+</head>
+<body>
+	<div id="stage">
+		<div class="cubic">
+			<div class="front">1</div>
+			<div class="behind">2</div>
+			<div class="left">3</div>
+			<div class="right">4</div>
+			<div class="upper">5</div>
+			<div class="lower">6</div>
+		</div>
+	</div>
+</body>
+</html>
