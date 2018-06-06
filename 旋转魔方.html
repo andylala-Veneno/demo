@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>旋转魔方</title>
+	<style type="text/css">
+		body{
+			margin:0;
+			background-color:#0b090a;
+		}
+		#stage{
+			perspective:800px;
+			perspective-origin:50% 50%;
+			-webkit-perspective:800px;
+			-webkit-perspective-origin:50% 50%;
+		}
+		#stage .cubic{
+			position:relative;
+			transform:rotateX(30deg) rotateY(60deg);
+			transform-style:preserve-3d;
+			width:206px;
+			height:206px;
+			margin:200px auto 0;
+			animation:myfirst 10s linear infinite running;
+		}
+		#stage .cubic:hover{
+			animation-play-state:paused;
+		}
+		#stage .cubic > div{
+			position:absolute;
+			backface-visibility:hidden;
+			width:200px;
+			height:200px;
+			border:3px solid #fff;
+		}
+		.front{
+			transform:translateZ(100px);
+			background-color:rgba(255,255,0,.8);
+		}
+		.behind{
+			transform:rotateY(180deg) translateZ(100px);
+			background-color:rgba(255,0,0,.8);
+		}
+		.left{
+			transform:rotateY(90deg) translateZ(100px);
+			background-color:rgba(255,128,0,.8);
+		}
+		.right{
+			transform:rotateY(-90deg) translateZ(100px);
+			background-color:rgba(0,255,64,.8);
+		}
+		.upper{
+			transform:rotateX(90deg) translateZ(100px);
+			background-color:rgba(255,255,255,.8);
+		}
+		.lower{
+			transform:rotateX(-90deg) translateZ(100px);
+			background-color:rgba(0,128,255,.8);
+		}
+		#stage .cubic > div > div{
+			float:left;
+			width:64px;
+			height:64px;
+			border:1.3333333333333px solid #fff;
+		}
+		@keyframes myfirst{
+			from{
+				transform:rotateX(30deg) rotateY(60deg);
+			}
+			to{
+				transform:rotateX(390deg) rotateY(420deg);
+			}
+		}
+	</style>
+</head>
+<body>
+	<div id="stage">
+		<div class="cubic">
+			<div class="front">
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+			<div class="behind">
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+			<div class="left">
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+			<div class="right">
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+			<div class="upper">
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+			<div class="lower">
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
