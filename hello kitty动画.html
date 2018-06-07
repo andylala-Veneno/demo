@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>hello kitty动画</title>
+	<style type="text/css">
+		body{
+			margin: 0;
+			background-color: #d69a44;
+		}
+		.pos-a{
+			position: absolute;
+		}
+		.wrap .contain{
+			width: 362px;
+			margin: 100px auto 0;
+		}
+		.wrap .contain .hello-kitty{
+			position: relative;
+			width: 100%;
+			height: 250px;
+		}
+		.wrap .contain .hello-kitty .face{
+			overflow: hidden;
+			z-index: 1;
+			width: 100%;
+			height: 250px;
+			background-color: #fbfbf1;
+			border: 2px solid rgba(0,0,0,.5);
+			box-sizing: border-box;
+			border-radius: 175px 175px 92px 92px/114px 114px 66px 66px;
+		}
+		.wrap .contain .hello-kitty .face:before{
+			content: "";
+			display: block;
+			position: absolute;
+			right: 6px;
+			top: -38px;
+			width: 120px;
+			height: 120px;
+			border-radius: 50%;
+			background-color: #f3b32e;
+		}
+		.wrap .contain .hello-kitty .face .eyes{
+			top: 88px;
+			width: 98px;
+			height: 84px;
+			background-color: #fff;
+			border: 2px solid rgba(0,0,0,.5);
+			border-radius: 50%;
+		}
+		.wrap .contain .hello-kitty .face .left-eye{
+			left: 36px;
+		}
+		.wrap .contain .hello-kitty .face .right-eye{
+			right: 36px;
+		}
+		.wrap .contain .hello-kitty .face .eyes:before{
+			content: "";
+			display: block;
+			position: absolute;
+			left: 0;
+			right: 0;
+			width: 48px;
+			height: 60px;
+			margin: auto;
+			background-color: #000;
+			border-radius: 50%;
+			animation: eyesmove 2s linear infinite alternate;
+		}
+		.wrap .contain .hello-kitty .face .eyes:after{
+			content: "";
+			display: block;
+			position: absolute;
+			left: -1px;
+			top: 46px;
+			z-index: 1;
+			width: 100px;
+			height: 50px;
+			background-color: #fbfbf1;
+			border-top: 2px solid rgba(0,0,0,.5);
+			border-radius: 50px 50px 50px 50px/20px 20px 20px 20px;
+			animation: eyebotmove 2s linear infinite alternate;
+		}
+		.wrap .contain .hello-kitty .face .nose{
+			left: 0;
+			right: 0;
+			top: 152px;
+			width: 20px;
+			height: 20px;
+			margin: auto;
+			background-color: #000;
+			border-radius: 50%;
+		}
+		.wrap .contain .hello-kitty .face .nose:before{
+			content: "";
+			display: block;
+			position: absolute;
+			left: -11px;
+			top: -2px;
+			width: 42px;
+			height: 14px;
+			background-color: #fbfbf1;
+			border-radius: 50%;
+		}
+		.wrap .contain .hello-kitty .face .lips{
+			left: 50%;
+			top: 136px;
+			z-index: 1;
+			width: 40px;
+			height: 48px;
+			border-bottom: 4px solid #000;
+			border-radius: 0 0 21px 8px/0 0 22px 8px;
+		}
+		.wrap .contain .hello-kitty .face .left-lip{
+			margin-left: -38px;
+			animation: leftlipmove 2s linear infinite alternate;
+		}
+		.wrap .contain .hello-kitty .face .right-lip{
+			border-radius: 0 0 8px 21px/0 0 8px 22px;
+			animation: rightlipmove 2s linear infinite alternate;
+		}
+		.wrap .contain .hello-kitty .face .flushes{
+			top: 138px;
+			visibility: hidden;
+			opacity: 0;
+			z-index: 1;
+			width: 48px;
+			height: 24px;
+			background-color: #e98080;
+			border-radius: 50%;
+			animation: flushesappear 2s ease-in-out infinite alternate;
+		}
+		.wrap .contain .hello-kitty .face .left-flush{
+			left: 64px;
+		}
+		.wrap .contain .hello-kitty .face .right-flush{
+			right: 64px;
+		}
+		.wrap .contain .hello-kitty .ears{
+			top: -13px;
+			z-index: 0;
+			width: 78px;
+			height: 69px;
+			border: 2px solid rgba(0,0,0,.5);
+		}
+		.wrap .contain .hello-kitty .left-ear{
+			left: 26px;
+			background-color: #fbfbf1;
+			border-radius: 72px 10px 0px 0px;
+			animation: leftearmove 2s linear infinite alternate;
+		}
+		.wrap .contain .hello-kitty .right-ear{
+			right: 26px;
+			background-color: #f1ac2b;
+			border-radius: 10px 72px 0px 0px;
+			animation: rightearmove 2s linear infinite alternate;
+		}
+		@keyframes leftearmove{
+			from{transform: rotate(0deg);}
+			to{transform: rotate(-30deg);}
+		}
+		@keyframes rightearmove{
+			from{transform: rotate(0deg);}
+			to{transform: rotate(30deg);}
+		}
+		@keyframes eyesmove{
+			from{transform: scale(1,1);}
+			to{transform: scale(1.2,1);}
+		}
+		@keyframes eyebotmove{
+			from{top: 45px;}
+			to{top: 34px;}
+		}
+		@keyframes leftlipmove{
+			from{border-radius: 0 0 21px 8px/0 0 22px 8px;}
+			to{border-radius: 50%;}
+		}
+		@keyframes rightlipmove{
+			from{border-radius: 0 0 8px 21px/0 0 8px 22px;}
+			to{border-radius: 50%;}
+		}
+		@keyframes flushesappear{
+			from{visibility: hidden;opacity: 0;}
+			to{visibility: visible;opacity: 1;}
+		}
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		<div class="contain">
+			<div class="hello-kitty">
+				<div class="face pos-a">
+					<div class="left-eye pos-a eyes"></div>
+					<div class="right-eye pos-a eyes"></div>
+					<div class="nose pos-a"></div>
+					<div class="left-lip pos-a lips"></div>
+					<div class="right-lip pos-a lips"></div>
+					<div class="left-flush pos-a flushes"></div>
+					<div class="right-flush pos-a flushes"></div>
+				</div>
+				<div class="left-ear pos-a ears"></div>
+				<div class="right-ear pos-a ears"></div>
+			</div>
+		</div>
+	</div>
+    <script></script>
+</body>
+</html>
