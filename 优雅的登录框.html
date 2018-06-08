@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>优雅的登录框</title>
+	<style type="text/css">
+		body,h3,p{
+			margin: 0;
+		}
+		h3{
+			line-height: 156px;
+			font-size: 52px;
+		}
+		.pos-a{
+			position: absolute;
+		}
+		.login-box{
+			width: 852px;
+			margin: 100px auto 0;
+			padding: 88px 58px;
+			box-shadow: 2px 0 5px 0 #ccc,-2px 0 5px 0 #ccc,0 2px 5px 0 #ccc,0 -2px 5px 0 #ccc;
+			border-radius: 5px;
+			box-sizing: border-box;
+		}
+		.login-box div:not(.submit){
+			position: relative;
+			height: 165px;
+			border-bottom: 2px solid #ccc;
+			font-size: 28px;
+		}
+		.login-box div:not(.submit) input{
+			bottom: 0;
+			width: 100%;
+			height: 90px;
+			border: none;
+			outline: none;
+			font-size: 28px;
+			font-weight: bolder;
+
+		}
+		/* 当输入框获得焦点时，下边框出现 */
+		.login-box div:not(.submit) input:focus{
+			border-bottom: 5px solid #13599b;
+		}
+		/* 当输入框获得焦点时，兄弟元素p向上移动，并且字体大小改变 */
+		.login-box div:not(.submit) input:focus + p{
+			top: 30px;
+			font-size: 24px;
+		}
+		/* 当输入框获得焦点时，关联元素i宽度为父元素容器宽度的100% */
+		.login-box div:not(.submit) input:focus ~ i{
+			width: 100%;
+		}
+		.login-box div:not(.submit) p{
+			top: 44px;
+			transition-duration: .2s;
+			transition-timing-function: linear; 
+			color: #8e8e8d;
+		}
+		.login-box div:not(.submit) i{
+			display: block;
+			transition: .2s;
+			bottom: 0;
+			width: 0;
+			height: 5px;
+			background-color: #13599b;
+		}
+		.login-box .submit{
+			margin-top: 85px;
+			background-color: #13599b;
+			border-radius: 5px;
+			text-align: center;
+			font-size: 30px;
+			line-height: 86px;
+			color: #fff;
+			animation: myfirst .4s linear infinite alternate paused;
+		}
+		@keyframes myfirst{
+			from{transform: scale(1);}
+			to{transform: scale(1.05);}
+		}
+	</style>
+</head>
+<body>
+	<div class="login-box">
+		<h3>Login</h3>
+		<div>
+			<input type="text" name="email" class="pos-a">
+			<p class="pos-a">Email</p>
+			<!-- 用i标签表示输入框的下划线 -->
+			<i class="pos-a"></i>
+		</div>
+		<div>
+			<input type="password" name="email" class="pos-a">
+			<p class="pos-a">Password</p>
+			<!-- 用i标签表示输入框的下划线 -->
+			<i class="pos-a"></i>
+		</div>
+		<div class="submit">Submit</div>
+	</div>
+    <script>
+    	//当emial框和密码框都有值时，执行动画,都不具有值时，动画停止
+    	var aInput= document.getElementsByTagName("input"),
+    		oSubmit= document.getElementsByClassName("submit");
+    		document.onclick= function(){
+    			if(aInput[0].value&&aInput[1].value){
+    				oSubmit[0].style.animationPlayState= "running";
+    			}
+    			else{
+    				oSubmit[0].style.animationPlayState= "paused";
+    			}
+    		}
+    </script>
+</body>
+</html>
