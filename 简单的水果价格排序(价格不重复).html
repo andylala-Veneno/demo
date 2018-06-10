@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>简单的水果价格排序(价格不重复)</title>
+  <style>
+	body{
+		margin: 0;
+		background-color: #333;
+	}
+	p{
+		margin: 0;
+	}
+	.clearfix:after{
+		content: "";
+		display: block;
+		clear: both;
+	}
+	.wrap{
+		width: 890px;
+		padding: 50px 45px; 
+		margin: 100px auto 0;
+		background-color: #eee;
+		border:1px solid #ccc;
+	}
+	ul{
+		list-style: none;
+		width: 100%;
+		margin: 0;
+		padding: 0;
+	}
+	ul li{
+		float: left;
+		width: 206px;
+		height: 226px;
+		margin:0 22px 25px 0;
+	}
+	ul .bot{
+		margin-bottom: 0;
+	}
+	ul .right{
+		margin-right: 0;
+	}
+	ul li img{
+		width: 100%;
+		height: 178px;
+	}
+	ul li p{
+		font-size: 14px;
+	}
+	ul li p span{
+		float: right;
+		color: #f00;
+		font-size: 18px;
+	}
+	ul li p .flowers{
+		float: left;
+		color: #000;
+		font-size: 14px;
+	}
+	.wrap .btn button{
+		float:right;
+		width: 75px;
+		height: 30px;
+	}
+  </style>
+ </head>
+ <body>
+	<div class="wrap">
+		<ul class="clearfix">
+			<li>
+				<img src="images/fruit1.png" width="200" height="200" alt="apple"/>
+				<p>
+					<span class="flowers">apple</span>
+					<span class="price">5.5</span>
+					<span>¥</span>
+				</p>
+			</li>
+			<li>
+				<img src="images/fruit2.png" width="220" height="200" alt="grape"/>
+				<p>
+					<span class="flowers">grape</span>
+					<span class="price">3.6</span>
+					<span>¥</span>
+				</p>
+			</li>
+			<li>
+				<img src="images/fruit3.png" width="220" height="200" alt="kiwifruit"/>
+				<p>
+					<span class="flowers">kiwifruit</span>
+					<span class="price">4.5</span>
+					<span>¥</span>
+				</p>
+			</li>
+			<li class="right">
+				<img src="images/fruit4.png" width="220" height="200" alt="lemon"/>
+				<p>
+					<span class="flowers">lemon</span>
+					<span class="price">2.8</span>
+					<span>¥</span>
+				</p>
+			</li>
+			<li class="bot">
+				<img src="images/fruit5.png" width="200" height="200" alt="orange"/>
+				<p>
+					<span class="flowers">orange</span>
+					<span class="price">1.5</span>
+					<span>¥</span>
+				</p>
+			</li>
+			<li class="bot">
+				<img src="images/fruit6.png" width="200" height="200" alt="peach"/>
+				<p>
+					<span class="flowers">peach</span>
+					<span class="price">4.8</span>
+					<span>¥</span>
+				</p>
+			</li>
+			<li class="bot">
+				<img src="images/fruit7.png" width="220" height="200" alt="pomegranate"/>
+				<p>
+					<span class="flowers">pomegranate</span>
+					<span class="price">8.2</span>
+					<span>¥</span>
+				</p>
+			</li>
+			<li class="bot right">
+				<img src="images/fruit8.png" width="220" height="200" alt="strawberry"/>
+				<p>
+					<span class="flowers">strawberry</span>
+					<span class="price">8</span>
+					<span>¥</span>
+				</p>
+			</li>
+		</ul>
+		<div class="btn clearfix">
+			<button>从高到低</button>
+			<button>从低到高</button>
+		</div>
+	</div>
+	<script>
+		var aButton= document.getElementsByTagName("button"),
+			aLi= document.querySelectorAll("li"),
+			len= aLi.length,
+			str= "",
+			str2= "";
+			(function(){
+				//获取每个li对应的价格
+				for(var i= 0;i< len;i++){
+					str +=aLi[i].getElementsByClassName("price")[0].innerHTML;
+					str2 +=aLi[i].getElementsByClassName("flowers")[0].innerHTML;
+					if(i === len-1){
+						break;
+					}
+					str += " ";
+					str2 += " ";
+				}
+				var arr1= str.split(" "),
+					arr2= str.split(" "),
+					arr3= str2.split(" ");
+				for(var i= 0;i< len;i++){
+					aLi[i].index= str.split(" ")[i];
+				}
+				//价格从低到高
+				aButton[1].onclick= function(){
+					arr2.sort(function(num1,num2){
+						return num1-num2;
+					})
+					for(var j= 0;j< len;j++){
+						var num1= arr2.indexOf(aLi[j].index);
+						aLi[num1].getElementsByClassName("price")[0].innerHTML= arr1[j];
+						aLi[num1].getElementsByClassName("flowers")[0].innerHTML= arr3[j];
+						var num2= (arr1.indexOf(arr1[j])+1);
+						aLi[num1].getElementsByTagName("img")[0].src= "images/fruit" + num2 + ".png";
+					}
+				}
+				//价格从高到低
+				aButton[0].onclick= function(){
+					arr2.sort(function(num1,num2){
+						return num1-num2;
+					})
+					for(var j= 0;j< len;j++){
+						var num1= arr2.indexOf(aLi[j].index);
+						aLi[len-1-num1].getElementsByClassName("price")[0].innerHTML= arr1[j];
+						aLi[len-1-num1].getElementsByClassName("flowers")[0].innerHTML= arr3[j];
+						var num2= (arr1.indexOf(arr1[j])+1);
+						aLi[len-1-num1].getElementsByTagName("img")[0].src= "images/fruit" + num2 + ".png";
+					}
+				}
+			})();
+	</script>
+ </body>
+</html>
