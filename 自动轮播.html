@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>01-淡入淡出</title>
+	<style type="text/css">
+		body{
+			margin: 0;
+			background-color: #333;
+		}
+		ul{
+			list-style: none;
+			margin: 0;
+			padding: 0;
+		}
+		.clearfix:after{
+			content: "";
+			display: block;
+			clear: both;
+		}
+		.wrap{
+			position: relative;
+			width: 700px;
+			height: 450px;
+			margin: 100px auto 0;
+			box-shadow: 0 0 5px 0 #ccc;
+		}
+		.wrap button{
+			position: absolute;
+			top: 50%;
+			z-index: 2;
+			width: 50px;
+			height: 100px;
+			margin-top: -50px;
+			padding: 0;
+			background-color: rgba(0, 0, 0, 0.694);
+			border: none;
+			outline: none;
+			color: #fff;
+		}
+		button:nth-child(1){
+			left: 0;
+		}
+		button:nth-child(2){
+			right: 0;
+		}
+		.wrap .pic{
+			height: 100%;
+		}
+		.wrap .pic ul{
+			position: relative;
+			width: 100%;
+			height: 100%;
+		}
+		.wrap .pic ul li{
+			transition: 1s;
+			visibility: hidden;
+			opacity: 0;
+			position: absolute;
+			width: 100%;
+			height: 100%;
+		}
+		.wrap .pic ul .cur{
+			visibility: visible;
+			opacity: 1;
+			z-index: 1;
+		}
+		.wrap .pic ul li:nth-child(1){
+			background: url("images/01.jpg") no-repeat center/cover;
+		}
+		.wrap .pic ul li:nth-child(2){
+			background: url("images/02.png") no-repeat center/cover;
+		}
+		.wrap .pic ul li:nth-child(3){
+			background: url("images/03.png") no-repeat center/cover;
+		}
+		.wrap .pic ul li:nth-child(4){
+			background: url("images/04.png") no-repeat center/cover;
+		}
+		.wrap .pic ul li:nth-child(5){
+			background: url("images/05.jpg") no-repeat center/cover;
+		}
+		.wrap .pic ul li:nth-child(6){
+			background: url("images/06.jpg") no-repeat center/cover;
+		}
+		.wrap .select-list{
+			position: absolute;
+			bottom: 0;
+			left: 50%;
+			z-index: 2;
+			margin-left: -57.5px;
+		}
+		.wrap .select-list ul li{
+			transition: .5s;
+			float: left;
+			width: 15px;
+			height: 15px;
+			margin-right: 5px;
+			background-color: #333;
+			border-radius: 50%;
+		}
+		.wrap .select-list ul li:last-child{
+			margin-right: 0;
+		}
+		.wrap .select-list ul .selected{
+			background-color: #f00;
+		}
+		.wrap button:hover,.wrap .select-list ul li:hover{
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		<button>&lt;</button>
+		<button>&gt;</button>
+		<div class="pic">
+			<ul>
+				<li class="cur"></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+		</div>
+		<div class="select-list">
+			<ul class="clearfix">
+				<li class="selected"></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+		</div>
+	</div>
+    <script>
+    	var oWrap= document.getElementsByClassName("wrap")[0],
+    		aSeelction= document.querySelectorAll(".select-list .clearfix li"),
+    		aPic= document.querySelectorAll(".pic ul li"),
+    		oPrevious= document.getElementsByTagName("button")[0],
+    		oNext= document.getElementsByTagName("button")[1];
+    		(function(){
+    			var len= aPic.length;
+    			for(var i= 0;i< len;i++){
+	    			(function(i){
+	    				aSeelction[i].onclick= function(){
+	    					aPic[i].className= "cur";
+	    					aSeelction[i].className= "selected";
+	    					for(var j= 0;j< len;j++){
+	    						if(j != i){
+	    							aPic[j].className= "";
+	    							aSeelction[j].className= "";
+	    						}
+	    					}
+	    				}
+	    			})(i);
+	    		}
+	    		oPrevious.onclick= function change(){
+	    			for(var i= 0;i< len;i++) {
+	    				if (aPic[i].className){
+	    					var num= i-1;
+	    					if(num< 0)num= len-1;
+	    				}
+	    				aPic[i].className= "";
+	    				aSeelction[i].className= "";
+	    			}
+	    			aPic[num].className= "cur";
+	    			aSeelction[num].className= "selected";
+	    		}
+	    		oNext.onclick= function(){
+	    			for(var i= 0;i< len;i++) {
+	    				if (aPic[i].className){
+	    					var num= i+1;
+	    					if(num> len-1)num= 0;
+	    				}
+	    				aPic[i].className= "";
+	    				aSeelction[i].className= "";
+	    			}
+	    			aPic[num].className= "cur";
+	    			aSeelction[num].className= "selected";
+	    		}
+	    		var time= setInterval(oNext.onclick,5000);
+	    		oWrap.onmouseover= function(){
+	    			clearInterval(time);
+	    		}
+	    		oWrap.onmouseout= function(){
+	    			time= setInterval(oNext.onclick,5000);
+	    		}
+    		})();
+    </script>
+</body>
+</html>
