@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>随机色圆形DIV旋转</title>
+	<style type="text/css">
+		body{
+			margin: 0;
+			background-color: #333;
+		}
+		.wrap{
+			position: relative;
+			width: 400px;
+			height: 400px;
+			margin: 100px auto 0;
+			border: 1px solid #0ff;
+			border-radius: 50%;
+		}
+		.circle{
+			transform-origin: 25px 225px;
+			position: absolute;
+			top: -25px;
+			left: 50%;
+			width: 50px;
+			height: 50px;
+			margin-left: -25px;
+			background-color: #f0f;
+			border-radius: 50%;
+		}
+		.circle:first-child{
+			z-index: 1;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		<div class="circle"></div>
+	</div>
+    <script>
+    	var oWrap = document.getElementsByClassName("wrap")[0],
+    		oCircle = document.getElementsByClassName("circle")[0],
+    		num = 0,
+    		count= 0;
+    		function move(){
+    			window.requestAnimationFrame = window.requestAnimationFrame || function(fn){
+    				return setTimeout(fn,1000/60);
+    			}
+    			num++;
+    			oCircle.style.transform =  "rotate(" + num + "deg)";
+    			if(num%20 === 0){
+    				var oDiv = document.createElement("div");
+    				oDiv.className = "circle";
+    				oDiv.style.transform = "rotate(" + num + "deg)";
+    				oDiv.style.backgroundColor = getColor();
+    				oWrap.appendChild(oDiv);
+    				count++;
+    				if(count > 5){
+    					oWrap.removeChild(oWrap.children[1]);
+    				}
+    			}
+    			requestAnimationFrame(move);
+    		}
+    		move();
+    		function getColor(){
+    			var r = Math.floor(Math.random() * 256),
+    				g = Math.floor(Math.random() * 256),
+    				b = Math.floor(Math.random() * 256);
+    			return "rgb(" + r + "," + g + "," + b + ")";
+    		}
+    </script>
+</body>
+</html>
