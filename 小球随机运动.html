@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>小球随机运动</title>
+	<style type="text/css">
+		.ball{
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 80px;
+			height: 80px;
+			background-color: #f00;
+			border-radius: 50%;
+		}
+	</style>
+</head>
+<body>
+    <script>
+    	//生成10个小球
+    	for(var i = 0;i < 10;i++){
+    		var aDiv = document.createElement("div");
+    		aDiv.className = "ball";
+    		//每个小球独自向左和向下运动的步长，是个随机数
+    		aDiv.moveLeftStep = Math.random() * 5 + 5;
+    		aDiv.moveTopStep = Math.random() * 5 + 5;
+    		//每个小球随机生成的坐标值
+    		aDiv.style.left = Math.random() * (document.documentElement.clientWidth - aDiv.offsetWidth) + "px";
+    		aDiv.style.top = Math.random() * (document.documentElement.clientHeight - aDiv.offsetHeight) + "px";
+    		document.body.appendChild(aDiv);
+    	}
+    	var aBall = document.getElementsByClassName("ball"),
+    	//每个小群运动最大的范围
+    		maxMoveLeft = document.documentElement.clientWidth - aBall[0].offsetWidth,
+    		maxMoveTop = document.documentElement.clientHeight - aBall[0].offsetHeight;
+		window.onresize = function(){
+			maxMoveLeft = document.documentElement.clientWidth - aBall[0].offsetWidth;
+			maxMoveTop = document.documentElement.clientHeight - aBall[0].offsetHeight;
+		}
+		//兼容低版本IE
+		window.requestAnimationFrame = window.requestAnimationFrame || function(fn){
+			return setTimeout(fn,1000/60);
+		}
+		function move(){
+			for(var j = 0;j < 10;j++){
+				var nowLeft = aBall[j].offsetLeft,
+					nowTop = aBall[j].offsetTop;
+				nowLeft += aBall[j].moveLeftStep;
+				nowTop += aBall[j].moveTopStep;
+				//小球碰壁判断，并且碰壁时生成随机颜色
+				if(nowLeft >= maxMoveLeft){
+					nowLeft = maxMoveLeft;
+					aBall[j].moveLeftStep = -aBall[j].moveLeftStep;
+					aBall[j].style.backgroundColor = changeBgColor();
+				}
+				else if(nowLeft <= 0){
+					nowLeft = 0;
+					aBall[j].moveLeftStep = -aBall[j].moveLeftStep;
+					aBall[j].style.backgroundColor = changeBgColor();
+				}
+				if(nowTop >= maxMoveTop){
+					nowTop = maxMoveTop;
+					aBall[j].moveTopStep = -aBall[j].moveTopStep;
+					aBall[j].style.backgroundColor = changeBgColor();
+				}
+				else if(nowTop <= 0){
+					nowTop = 0;
+					aBall[j].moveTopStep = -aBall[j].moveTopStep;
+					aBall[j].style.backgroundColor = changeBgColor();
+				}
+				aBall[j].style.left = nowLeft + "px";
+				aBall[j].style.top = nowTop + "px";
+			}
+			requestAnimationFrame(move);
+		}
+		//获取随机颜色
+		function changeBgColor(){
+			var r = Math.floor(Math.random() * 256),
+				g = Math.floor(Math.random() * 256),
+				b = Math.floor(Math.random() * 256);
+			return "rgb(" + r + "," + g + "," + b + ")";
+		}
+		move();
+    </script>
+</body>
+</html>
