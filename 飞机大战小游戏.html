@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>飞机大战小游戏</title>
+<style>
+	html{
+		height: 100%;
+	}
+	*{
+		margin: 0;
+		padding: 0;
+	}
+	body{
+		overflow: hidden;
+		height: 100%;
+		background: linear-gradient(to bottom,#8ecddc,#e9ab92);
+	}
+	#wrap{
+		width: 350px;
+		height: 625px;
+		margin: 100px auto 0;
+		border: 10px solid #fff;
+	}
+	#box{
+		position: relative;
+		width: 100%;
+		height: 100%;
+		text-align: center;
+	}
+	#box h1{
+		padding-top: 60px;
+		color: #fff;
+	}
+	#box .level{
+		display: block;
+		width: 150px;
+		height: 30px;
+		margin: 60px auto;
+		padding: 0;
+		background-color: #fff;
+		border: 0;
+		font-weight: 700;
+		line-height: 30px;
+		outline: none;
+		cursor: pointer;
+	}
+	#box .level:hover{
+		color: #f00;
+	}
+	#box img{
+		position: absolute;
+	}
+	#box .planes{
+		float: left;
+		width: 60px;
+		height: 60px;
+		cursor: pointer;
+	}
+	#box .selected{
+		border: 1px solid #fff;
+		border-radius: 50%;
+	}
+	#box .score{
+		position: absolute;
+		left: 0;
+		top: 0;
+		color: #fff;
+		font-weight: 700;
+		font-size: 14px;
+	}
+	#box .overbox{
+		overflow: hidden;
+		width: 100%;
+		height: 100%;
+		color: #fff;
+	}
+	#box .overbox h2{
+		margin-top: 50px;
+	}
+	#box .overbox p{
+		margin-top: 50px;
+		font-weight: 700;
+		font-size: 24px;
+	}
+	#box .overbox .restart{
+		width: 150px;
+		height: 30px;
+		margin: 50px auto;
+		background-color: #fff;
+		color: #000;
+		font-size: 18px;
+		line-height: 30px;
+		cursor: pointer;
+	}
+	#box .overbox .restart:hover{
+		color: #f00;
+	}
+	#box .boom{
+		opacity: 1;
+		animation:dis .3s forwards;
+	}
+	@keyframes dis{
+		100%{opacity: 0}
+	}
+</style>
+
+</head>
+<body>
+	<div id="wrap">
+		<div id="box"></div>
+	</div>
+    <script>
+    	(function(){
+			var oBox = document.getElementById("box"),
+				arr4 = [1,2,3,4],
+				a;//a表示选择的战机，默认是第一个(红色战机器)
+			init();
+			//初始页面
+			function init(){
+				var h1 = document.createElement("h1"),
+					planes = document.createElement("div"),
+					plane1 = document.createElement("div"),
+					plane2 = document.createElement("div"),
+					p = document.createElement("p"),
+					arrLevel = ["小试牛刀","初出茅庐","炉火纯青","独孤求败"];
+				h1.innerHTML = "飞机大战";
+				p.innerHTML = "请选择战机";
+				p.style.marginBottom = 10 + "px";
+				p.style.color = "#fff";
+				planes.style.width = 142 + "px";
+				plane1.className = "planes selected";
+				planes.style.height = 62 + "px";
+				plane1.style.background = "url('images/plane_0.png')  no-repeat center/cover";
+				plane2.className = "planes";
+				plane2.style.marginLeft = 20 + "px";
+				plane2.style.background =  "url('images/plane_1.png') no-repeat center/cover";
+				planes.style.margin = "auto";
+				oBox.style.background = "linear-gradient(to top right, #fc737a 10%, #ff7c9d 65%, #ffc01a 125%)";
+				oBox.appendChild(h1);
+				for(var i = 0; i < arrLevel.length; i++){
+					var obutton = document.createElement("button");
+					obutton.className = "level";
+					obutton.innerHTML = arrLevel[i];
+					obutton.level = i;
+					obutton.onclick = function(e){
+						statrGame(this.level,e);
+						oBox.style.backgroundImage = "url('images/bg" + arr4[this.level] + ".jpg')";
+						oBox.style.cursor = "pointer";
+					};
+					oBox.appendChild(obutton);
+				}
+				oBox.appendChild(p);
+				oBox.appendChild(planes);
+				planes.appendChild(plane1);
+				planes.appendChild(plane2);
+				var aPlanes = document.getElementsByClassName("planes");
+				for(var i = 0;i < aPlanes.length;i++){
+					a = 0;//a表示选择的战机，默认是第一个(红色战机器)
+					aPlanes[i].index = i;
+					aPlanes[i].onclick = function(){
+						this.className = "selected planes";
+						for(var j = 0;j < aPlanes.length;j++){
+							if(j !== this.index){
+								aPlanes[j].className = "planes";
+							}
+						}
+						a = this.index;//自定义属性选择战机
+					}
+				}
+			}
+			//开始游戏
+			function statrGame(level, e){
+				//level表示难度等级
+				oBox.innerHTML = "";
+				createScore();
+				var plane = airPlane(a,level, e);
+				enemy(level, plane);
+			}
+			//生成敌军
+			function enemy(level, plane){
+				var oScore = oBox.getElementsByClassName("score")[0],
+					enemyArry = ["images/enemy_small.png","images/enemy_big.png"];
+				oBox.enemyTimer = setInterval(function(){
+					//生成敌军飞机
+					var enemyPlane = document.createElement("img");
+					enemyPlane.src = enemyArry[Math.floor(Math.random()*2)];
+					enemyPlane.width = 40;
+					enemyPlane.height = 30;
+					enemyPlane.style.top = 0;
+					enemyPlane.style.left = Math.random()*oBox.clientWidth - enemyPlane.width / 2 + "px";
+					oBox.appendChild(enemyPlane);
+					//设置敌军运动速度
+					var speed = [2,6,8,12][level];
+					enemyplay();
+					//敌军运动
+					function enemyplay(){
+						enemyPlane.style.top = enemyPlane.offsetTop + speed + "px";
+						if(enemyPlane.offsetTop >= oBox.clientHeight - enemyPlane.height){
+							oBox.removeChild(enemyPlane);
+						}else{
+							var abullet = oBox.getElementsByClassName("bullet");
+							for(var i = 0,len = abullet.length; i < len; i++){
+								if(isCollision(abullet[i],enemyPlane)){
+									oBox.score += 10;
+									oScore.innerHTML = "当前分数:" + oBox.score;
+									Boom(enemyPlane,0);
+									cancelAnimationFrame(abullet[i].timer);
+									oBox.removeChild(enemyPlane);
+									oBox.removeChild(abullet[i]);
+									return false;
+								}
+							}
+							if(plane.parentNode && isCollision(plane,enemyPlane)){
+								Boom(enemyPlane,0);
+								Boom(plane,1);
+								document.onmousemove = null;
+								clearInterval(oBox.enemyTimer);
+								clearInterval(plane.timer);
+								oBox.removeChild(enemyPlane);
+								oBox.removeChild(plane);
+								return false;
+							}
+							plane.parentNode && requestAnimationFrame(enemyplay);
+						}
+					}
+				},[350,250,150,50][level]);//生成敌军的速度
+			}
+			//生成我军
+			function airPlane(a,level,e){
+				var myPlane = document.createElement("img");
+				myPlane.className = "plane";
+				myPlane.src = "images/plane_" + a + ".png";
+				myPlane.width = 60;
+				myPlane.height = 60;
+				myPlane.style.top = e.pageY - getOffset(oBox).top -myPlane.height / 2 + "px";
+				myPlane.style.left = e.pageX - getOffset(oBox).left -myPlane.width / 2 + "px";
+				oBox.appendChild(myPlane);
+				//我军飞机的移动范围
+				var leftMax = oBox.clientWidth - myPlane.width / 2,
+					leftMin = 0 - myPlane.width / 2,
+					topMin = 0,
+					topMax = oBox.clientHeight - myPlane.height;
+				document.onmousemove = function(e){
+					var top = e.pageY - getOffset(oBox).top -myPlane.height / 2,
+						left = e.pageX - getOffset(oBox).left -myPlane.width / 2;
+					top = Math.min(top,topMax);
+					top = Math.max(top,topMin);
+					left = Math.min(left,leftMax);
+					left = Math.max(left,leftMin);
+					myPlane.style.left = left + "px";
+					myPlane.style.top = top + "px";
+				};
+				//生成子弹
+				myPlane.timer = setInterval(function(){
+					var obullet = document.createElement("img");
+					obullet.className = "bullet";
+					obullet.src = "images/fire.png";
+					obullet.width = 20;
+					obullet.height = 20;
+					obullet.style.top = myPlane.offsetTop - obullet.height + "px";
+					obullet.style.left = myPlane.offsetLeft + myPlane.clientWidth / 2 - obullet.width / 2 + "px";
+					oBox.appendChild(obullet);
+					run();
+					//子弹运动
+					function run(){
+						var top = obullet.offsetTop - 8;
+						obullet.style.top = top + "px";
+						if(top <= 0){
+							oBox.removeChild(obullet);
+						}else{
+							myPlane.parentNode && (obullet.timer = requestAnimationFrame(run));
+						}	
+					}
+				},[250,150,50,13][level]);//生成子弹的速度
+				return myPlane;
+			}
+			//计分函数
+			function createScore(){
+				oBox.score = 0;
+				var div = document.createElement("div");
+				div.className = "score";
+				div.innerHTML = "当前分数:" + oBox.score;
+				oBox.appendChild(div);
+			}
+			//游戏结束
+			function gameover(a){
+				oBox.innerHTML = "";//清空战场
+				var overBox = document.createElement("div"),
+					btnRestart = document.createElement("button");
+				overBox.className = "overbox";
+				overBox.innerHTML = "<h2>GAME OVER</h2><p>总分："+oBox.score+"</p>";
+				btnRestart.className = "restart level";
+				btnRestart.innerHTML = "Try Again";
+				btnRestart.onclick = function(){
+					oBox.innerHTML = "";
+					init();
+				};
+				overBox.appendChild(btnRestart);
+				oBox.appendChild(overBox);
+				oBox.style.cursor = "default";
+			}
+			//Boom爆炸效果
+			function Boom(obj,n){
+				var imgArr = ["images/boom_small.png","images/boom_big.png"],
+					img = document.createElement("img");
+				img.className = "boom";
+				img.src = imgArr[n];//判断是敌军爆炸还是我军爆炸
+				img.width = obj.width;
+				img.height = obj.height;
+				img.style.top = obj.offsetTop + "px"; 
+				img.style.left = obj.offsetLeft + "px"; 
+				oBox.appendChild(img);
+				setTimeout(function(){
+					img.parentNode && oBox.removeChild(img);
+					if( n === 1){//当n等于1时,游戏结束
+						gameover();
+					}
+				},300);
+			}
+			//检测碰撞
+			function isCollision(obj,enemy){
+				//obj：我军飞机或者子弹   enemy:敌军飞机
+				var T1 = obj.offsetTop,
+					B1 = obj.offsetTop + obj.height,
+					L1 = obj.offsetLeft,
+					R1 = obj.offsetLeft + obj.width,
+					T2 = enemy.offsetTop,
+					B2 = enemy.offsetTop + enemy.height,
+					L2 = enemy.offsetLeft,
+					R2 = enemy.offsetLeft + enemy.width;
+				if(T1 > B2 || L1 > R2 || B1 < T2 || R1 < L2){
+					//没有发生碰撞
+					return false;
+				}else{
+					//发生碰撞
+					return true;
+				}
+			}
+			//获取对象到body的距离
+			function getOffset(ele){
+				var obj = {
+					left :0,
+					top : 0
+				};
+				while(ele !== document.body){
+					obj.left += ele.offsetLeft + ele.offsetParent.clientLeft + ele.offsetParent.clientLeft;
+					obj.top += ele.offsetTop + ele.offsetParent.clientTop + ele.offsetParent.clientTop;
+					ele = ele.offsetParent;
+				}
+				return obj;
+			}
+    	})();
+    </script>
+</body>
+</html>
