@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>节流在无缝轮播中的应用演示</title>
+	<style type="text/css">
+		body{
+			background-color: #333;
+		}
+		.wrap{
+			overflow: hidden;
+			position: relative;
+			width: 700px;
+			height: 450px;
+			margin: 100px auto 0;
+		}
+		.wrap .btn{
+			position: absolute;
+			top: 50%;
+			z-index: 1;
+			width: 50px;
+			height: 80px;
+			margin-top: -40px;
+			background-color: rgba(0,0,0,.5);
+			color: #fff;
+			text-align: center;
+			line-height: 80px;
+			cursor: pointer;
+		}
+		.wrap .left{
+			left: 0;
+		}
+		.wrap .right{
+			right: 0;
+		}
+		ul{
+			transition-timing-function: linear;
+			position: absolute;
+			left: 0;
+			top: 0;
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			width: 3500px;
+			height: 100%;
+		}
+		li{
+			float: left;
+			width: 700px;
+			height: 100%;
+		}
+		li:nth-of-type(1){
+			background: url("images/01.jpg") no-repeat center/cover;
+		}
+		li:nth-of-type(2){
+			background: url("images/02.png") no-repeat center/cover;
+		}
+		li:nth-of-type(3){
+			background: url("images/03.png") no-repeat center/cover;
+		}
+		li:nth-of-type(4){
+			background: url("images/04.png") no-repeat center/cover;
+		}
+		li:nth-of-type(5){
+			background: url("images/01.jpg") no-repeat center/cover;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		<div class="btn left">&lt;</div>
+		<div class="btn right">&gt;</div>
+		<ul>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</div>
+    <script>
+    	(function(){
+    		var oUl = document.getElementsByTagName("ul")[0],
+	    		aButton = document.getElementsByClassName("btn"),
+	    		aLi = document.getElementsByTagName("li"),
+	    		oWidth = parseFloat(getComputedStyle(aLi[0]).width),
+	    		oWrap = document.getElementsByClassName("wrap")[0],
+	    		len = aLi.length,
+	    		index = 0;
+    		function btnPre(){
+    			index--;
+    			if(index < 0){
+    				oUl.style.transition = 0 + "s";
+    				oUl.style.left = -oWidth*(len-1) + "px";
+    				index = len - 2;
+    				setTimeout(function(){
+    					oUl.style.transition = 1 + "s";
+    					oUl.style.left = -oWidth*(index) + "px";
+    				},1000/60);
+    			}
+    			else{
+    				oUl.style.transition = 1 + "s";
+    				oUl.style.left = -oWidth*(index) + "px";
+    			}
+    		}
+    		function btnNext(){
+				index++;
+				if(index === len-1){
+					oUl.style.left = -oWidth*index + "px";
+					index = 0;
+					setTimeout(function(){
+						oUl.style.transition = 0 + "s";
+						oUl.style.left = 0 + "px";
+						
+					},1000);
+				}
+				else{
+					oUl.style.transition = 1 + "s";
+					oUl.style.left = -oWidth*index + "px";
+				}
+    		}
+    		function throttle(fn,time){
+	    		var startTime = new Date();
+	    		return function(){
+	    			var time_ = (new Date() - startTime) >= time;
+	    			if(time_){
+	    				fn.apply(this);
+	    				startTime = new Date();
+	    			}
+	    		}
+	    	}
+	    	aButton[0].onclick = throttle(btnPre,1000);
+	    	aButton[1].onclick = throttle(btnNext,1000);
+	    	var timer = setInterval(btnNext,5000);
+	    	oWrap.onmouseover = function(){
+	    		clearInterval(timer);
+	    	}
+	    	oWrap.onmouseout = function(){
+	    		timer = setInterval(btnNext,5000);
+	    	}
+    	})();
+    </script>
+</body>
+</html>
