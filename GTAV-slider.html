@@ -348,6 +348,9 @@
 						oImgList.style.left = 0 + "px";
 					},1000);
 				}
+				setTimeout(function(){
+					count = index;
+				},1000);
     		}
 	    	aButton[0].onclick = throttle(btnPre,1000);
 	    	aButton[1].onclick = throttle(btnNext,1000);
