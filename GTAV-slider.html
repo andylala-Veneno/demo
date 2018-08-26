@@ -64,6 +64,7 @@
 			opacity: 1;
 		}
 		.img-list{
+			transition-timing-function: linear;
 			top: 0;
 			margin: 0;
 			width: 700%;
@@ -177,7 +178,8 @@
 	    		aTab = document.querySelectorAll(".tab-list li");
 	    		len = aImgLi.length,
 	    		index = 0,
-	    		index_ = 0;
+	    		index_ = 0,
+	    		count = 0;
 	    	oWrap.style.width = window.innerWidth + "px";
 	    	var oWidth = parseFloat(getComputedStyle(aImgLi[0]).width);
 	    	oBgm.state = true;
@@ -196,10 +198,13 @@
 	    	function throttle(fn,time){
 	    		var startTime = new Date();
 	    		return function(){
-	    			var time_ = (new Date() - startTime) >= time;
+	    			var time_ = (((new Date() - startTime) >= time) && (count === index));
 	    			if(time_){
 	    				fn.apply(this);
 	    				startTime = new Date();
+	    				setTimeout(function(){
+	    					count = index;
+	    				},1000);
 	    			}
 	    		}
 	    	}
@@ -209,7 +214,7 @@
 	    		for(var i = 0,tabLen = aTab.length;i < tabLen;i++){
 	    			(function(i){
 	    				aTab[i].onclick = function(){
-	    					if(new Date() - t >= 1000){
+	    					if((new Date() - t >= 1000) && (count === index)){
 	    						index_ = index;
 	    						i - index > 0 ? direction = true : direction = false;
 	    						if(this.className !== "on"){
@@ -272,6 +277,9 @@
 			    					}
 			    					this.className = "on";
 			    					t = new Date();
+			    					setTimeout(function(){
+			    						count = index;
+			    					},1000);
 			    				}
 	    					}
 	    				}
