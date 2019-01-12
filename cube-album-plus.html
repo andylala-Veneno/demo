@@ -94,6 +94,7 @@
 		const initX = 0
 		const initY = 0
 		const time = 8
+		let toggleMove = false
 		function reset () {
 			cubeWrapper.style.transitionDuration = '.4s'
 			cubeWrapper.style.transform = 'rotateX(' + initX + 'deg)' + 'rotateY(' + initY +'deg)'
@@ -109,18 +110,23 @@
 			let distanceY = 0
 			let distanceX = 0
 			document.onmousemove = function (e) {
+				e.preventDefault()
+				toggleMove = true
 				distanceY = startY - e.clientX >= 0?-Math.abs(startY - e.clientX) : Math.abs(startY - e.clientX)
 				distanceX = startX - e.clientY >= 0?Math.abs(startX - e.clientY) : -Math.abs(startX - e.clientY)
 				ydelta = -(startY - e.clientX) / 5 + nowyAngle
 				xdelta = (startX - e.clientY) / 5 + nowxAngle
 				cubeWrapper.style.transform = 'rotateX(' + xdelta + 'deg)' + 'rotateY(' + ydelta +'deg)'
 			}
-			document.onmouseup = function () {
+			document.onmouseup = function (e) {
+				e.preventDefault()
+				this.onmousemove = null
+				if (!toggleMove) return
 				nowyAngle = ydelta + distanceY / time
 				nowxAngle = xdelta + distanceX / time
 				cubeWrapper.style.transitionDuration = '1s'
 				cubeWrapper.style.transform = 'rotateX(' + nowxAngle + 'deg)' + 'rotateY(' + nowyAngle +'deg)'
-				this.onmousemove = null
+				toggleMove = false
 			}
 		}
 		btn.onclick = function () {
