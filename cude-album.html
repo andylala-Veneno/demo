@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>cude-album</title>
+	<style>
+		html{
+			height: 100%;
+		}
+		body{
+			overflow: hidden;
+			height: 100%;
+			margin: 0;
+			background-image: linear-gradient(120deg, #E55D87, #5FC3E4);
+		}
+		.wrapper{
+			perspective: 800px;
+		}
+		.wrapper:hover{
+			cursor: pointer;
+		}
+		.cube-wrapper{
+			transform-style: preserve-3d;
+			transform: rotate(0deg);
+			position: relative;
+			width: 360px;
+			height: 360px;
+			margin: 200px auto 0;
+		}
+		.cube-wrapper .cube-item{
+			position: absolute;
+			width: 360px;
+			height: 360px;
+		}
+		.cube-wrapper .cube-item:first-of-type{
+			transform: translateZ(180px);
+			background: url('./images/beauty1.jpg') no-repeat center/cover;
+		}
+		.cube-wrapper .cube-item:nth-of-type(2){
+			transform: rotateY(-90deg) translateZ(180px);
+			background: url('./images/beauty2.jpg') no-repeat center/cover;
+		}
+		.cube-wrapper .cube-item:nth-of-type(3){
+			transform: rotateY(90deg) translateZ(180px);
+			background: url('./images/beauty3.jpg') no-repeat center/cover;
+		}
+		.cube-wrapper .cube-item:nth-of-type(4){
+			transform: rotateX(90deg) translateZ(180px);
+			background: url('./images/beauty4.jpg') no-repeat center/cover;
+		}
+		.cube-wrapper .cube-item:nth-of-type(5){
+			transform: rotateX(-90deg) translateZ(180px);
+			background: url('./images/beauty1.jpg') no-repeat center/cover;
+		}
+		.cube-wrapper .cube-item:last-of-type{
+			transform: rotateY(180deg) translateZ(180px);
+			background: url('./images/beauty2.jpg') no-repeat center/cover;
+		}
+		.btn{
+			position: fixed;
+			left: 20px;
+			top: 20px;
+			padding: 0 10px;
+			color: #fff;
+			cursor: pointer;
+			line-height: 30px;
+			font-size: 20px;
+			border-radius: 3px;
+			box-shadow: 0 0 1px #ccc;
+		}
+	</style>
+</head>
+<body>
+	<div class='wrapper'>
+		<div class='cube-wrapper'>
+			<div class="cube-item"></div>
+			<div class="cube-item"></div>
+			<div class="cube-item"></div>
+			<div class="cube-item"></div>
+			<div class="cube-item"></div>
+			<div class="cube-item"></div>
+		</div>
+	</div>
+	<div class='btn'>reset cube</div>
+	<script>
+		const oWrapper = document.getElementsByClassName('wrapper')[0]
+		const cubeWrapper = document.getElementsByClassName('cube-wrapper')[0]
+		const btn = document.getElementsByClassName('btn')[0]
+		let nowyAngle = 0
+		let ydelta = 0
+		let nowxAngle = 0
+		let xdelta = 0
+		const initX = 0
+		const initY = 0
+		function reset () {
+			cubeWrapper.style.transitionDuration = '.4s'
+			cubeWrapper.style.transform = 'rotateX(' + initX + 'deg)' + 'rotateY(' + initY +'deg)'
+			nowxAngle = 0
+			nowyAngle = 0
+		}
+		oWrapper.onmousedown = function (e) {
+			cubeWrapper.style.transitionDuration = '0s'
+			e = e || window.event
+			e.preventDefault()
+			const startY = e.clientX
+			const startX = e.clientY
+			document.onmousemove = function (e) {
+				ydelta = -(startY - e.clientX) / 5 + nowyAngle
+				xdelta = (startX - e.clientY) / 5 + nowxAngle
+				cubeWrapper.style.transform = 'rotateX(' + xdelta + 'deg)' + 'rotateY(' + ydelta +'deg)'
+			}
+			document.onmouseup = function () {
+				nowyAngle = ydelta
+				nowxAngle = xdelta
+				this.onmousemove = null
+			}
+		}
+		btn.onclick = function () {
+			reset()
+		}
+	</script>
+</body>
+</html>
